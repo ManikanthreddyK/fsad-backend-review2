@@ -11,7 +11,6 @@ import com.career.guidance.repository.AppUserRepository;
 import com.career.guidance.repository.CounsellorRepository;
 import com.career.guidance.service.GoogleTokenService;
 import com.career.guidance.service.JwtService;
-import com.career.guidance.service.RecaptchaService;
 import jakarta.validation.Valid;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,6 @@ public class AuthController {
     private final CounsellorRepository counsellorRepository;
     private final GoogleTokenService googleTokenService;
     private final JwtService jwtService;
-    private final RecaptchaService recaptchaService;
 
     @PostMapping("/register")
     public AuthResponse register(@Valid @RequestBody AuthRequest request) {
@@ -94,13 +92,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponse login(@Valid @RequestBody LoginRequest request) {
-        if (request.getCaptchaToken() == null || request.getCaptchaToken().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please complete CAPTCHA");
-        }
-        if (!recaptchaService.verifyToken(request.getCaptchaToken())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CAPTCHA verification failed");
-        }
-
         AppUser appUser = userRepository.findByEmail(request.getEmail()).orElse(null);
         if (appUser != null && appUser.getPassword() != null && appUser.getPassword().equals(request.getPassword())) {
             return toResponse(appUser.getId(), appUser.getFullName(), appUser.getEmail(), appUser.getRole());

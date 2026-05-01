@@ -10,6 +10,4 @@ public class LoginRequest {
 
     @NotBlank
     private String password;
-
-    private String captchaToken;
 }

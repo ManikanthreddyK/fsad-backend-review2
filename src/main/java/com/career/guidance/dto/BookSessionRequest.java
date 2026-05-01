@@ -2,9 +2,11 @@ package com.career.guidance.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookSessionRequest {
     @NotNull
     private Long studentId;

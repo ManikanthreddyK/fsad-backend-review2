@@ -1,10 +1,11 @@
 package com.career.guidance.dto;
 
 import com.career.guidance.model.UserRole;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class AuthResponse {
     private Long id;
